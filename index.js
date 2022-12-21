@@ -11,8 +11,7 @@ let timerRunning = false;
 inputTimer.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
         let inputTime = new Time(e.target.value);
-        if(inputTime.ready){
-
+        if (inputTime.ready) {
             timerValue = inputTime.getTimerValue();
             timerCount = 0;
             timerRunning = true;
@@ -34,7 +33,7 @@ canvas.height = HEIGHT;
 ctx.translate(WIDTH / 2, HEIGHT / 2);
 ctx.fillRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
 
-let Time = {
+let TimeGlobal = {
     second: 0,
     minute: 0,
     hour: 0,
@@ -93,7 +92,9 @@ function drawClock() {
     ctx.stroke();
 }
 
-function drawTime(hour, minute, second) {
+function drawTime() {
+    let { hour, minute, second } = TimeGlobal;
+
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
     ctx.font = `${clockRadius * 0.4}px monospace`;
@@ -132,7 +133,11 @@ setInterval(() => {
     let minute = d.getMinutes() + second / 60;
     let hour = d.getHours() + minute / 60;
 
-
+    TimeGlobal = {
+        hour: parseInt(hour),
+        minute: parseInt(minute),
+        second: second,
+    };
 
     if (timerValue > 0) {
         timerCount++;
@@ -144,31 +149,33 @@ setInterval(() => {
         timerRunning = false;
         alarm.play();
     }
-    
 }, 1000);
 
-
-function draw(){
+function draw() {
     ctx.clearRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
     ctx.fillStyle = "black";
     ctx.fillRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
 
-    drawTime(parseInt(hour), parseInt(minute), second);
+    drawTime();
     drawClock();
 
     if (timerValue > 0) {
         drawTimer();
     }
 
-    drawWatchHand(360 * (hour / 12), "H");
-    drawWatchHand(360 * (minute / 60), "M");
-    drawWatchHand(360 * (second / 60), "S");
-}
 
+    drawWatchHand(360 * (TimeGlobal.hour / 12), "H");
+    drawWatchHand(360 * (TimeGlobal.minute / 60), "M");
+    drawWatchHand(360 * (TimeGlobal.second / 60), "S");
+
+    requestAnimationFrame(draw);
+}
 
 window.addEventListener("resize", () => window.location.reload());
 document.addEventListener("keydown", (e) => {
-    if(e.key === "t"){
+    if (e.key === "t") {
         inputTimer.focus();
     }
 });
+
+setTimeout(() => draw(), 1000);

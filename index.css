@@ -16,7 +16,7 @@ input[type=text]{
     height: 30px;
     background-color: rgba(21,175,208);
     border: 2px solid rgb(10, 68, 97);
-    opacity: 0.1;
+    opacity: 0.2;
 }
 
 input:focus{
