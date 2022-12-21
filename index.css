@@ -1,0 +1,26 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+#form{
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+input[type=text]{
+    text-align: center;
+    height: 30px;
+    background-color: rgba(21,175,208);
+    border: 2px solid rgb(10, 68, 97);
+    opacity: 0.1;
+}
+
+input:focus{
+    border-color: black;
+    opacity: 1;
+    background-color: white;
+}
