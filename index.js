@@ -16,9 +16,8 @@ inputTimer.addEventListener("keydown", (e) => {
             timerValue = inputTime.getTimerValue();
             timerCount = 0;
             timerRunning = true;
-        }else{
-            inputTimer.value = "";
         }
+        inputTimer.value = "";
     }
 });
 
@@ -35,7 +34,7 @@ canvas.height = HEIGHT;
 ctx.translate(WIDTH / 2, HEIGHT / 2);
 ctx.fillRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
 
-let time = {
+let Time = {
     second: 0,
     minute: 0,
     hour: 0,
@@ -132,15 +131,11 @@ setInterval(() => {
     let second = d.getSeconds();
     let minute = d.getMinutes() + second / 60;
     let hour = d.getHours() + minute / 60;
-    ctx.clearRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
-    ctx.fillStyle = "black";
-    ctx.fillRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
 
-    drawTime(parseInt(hour), parseInt(minute), second);
-    drawClock();
+
+
     if (timerValue > 0) {
         timerCount++;
-        drawTimer();
     }
 
     if (timerCount === timerValue && timerRunning) {
@@ -149,10 +144,27 @@ setInterval(() => {
         timerRunning = false;
         alarm.play();
     }
+    
+}, 1000);
+
+
+function draw(){
+    ctx.clearRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
+    ctx.fillStyle = "black";
+    ctx.fillRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
+
+    drawTime(parseInt(hour), parseInt(minute), second);
+    drawClock();
+
+    if (timerValue > 0) {
+        drawTimer();
+    }
+
     drawWatchHand(360 * (hour / 12), "H");
     drawWatchHand(360 * (minute / 60), "M");
     drawWatchHand(360 * (second / 60), "S");
-}, 1000);
+}
+
 
 window.addEventListener("resize", () => window.location.reload());
 document.addEventListener("keydown", (e) => {
