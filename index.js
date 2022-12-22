@@ -93,7 +93,9 @@ function drawClock() {
 }
 
 function drawTime() {
-    let { hour, minute, second } = TimeGlobal;
+    let hour = parseInt(TimeGlobal.hour); 
+    let minute = parseInt(TimeGlobal.minute);
+    let second = parseInt(TimeGlobal.second);
 
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
@@ -134,8 +136,8 @@ setInterval(() => {
     let hour = d.getHours() + minute / 60;
 
     TimeGlobal = {
-        hour: parseInt(hour),
-        minute: parseInt(minute),
+        hour: hour,
+        minute: minute,
         second: second,
     };
 
@@ -162,7 +164,6 @@ function draw() {
     if (timerValue > 0) {
         drawTimer();
     }
-
 
     drawWatchHand(360 * (TimeGlobal.hour / 12), "H");
     drawWatchHand(360 * (TimeGlobal.minute / 60), "M");
